@@ -1,0 +1,101 @@
+<template>
+	<view class="container">
+		<image class="logo" src="/static/logo.png"></image>
+		<barcode id='1' class="barcode" autostart="true" ref="barcode" background="rgb(0,0,0)" frameColor="#1C86EE"
+			scanbarColor="#1C86EE" :filters="fil" @marked="success1" @error="fail1"></barcode>
+		<button class="btn sb" @click="toStart">开始识别</button>
+		<button class="btn close" @click="tocancel">关闭</button>
+		<button class="btn rk" @click="toFlash">开始入库</button>
+		<!-- <button class="btn" @click="toscan">预览</button> -->
+	</view>
+</template>
+
+<script>
+	export default {
+		onLoad() {
+
+		},
+		data() {
+			return {
+				fil: [0, 2, 1]
+			}
+		},
+
+		methods: {
+			success1(e) {
+				console.log("success1:" + JSON.stringify(e));
+			},
+			fail1(e) {
+				console.log("fail1:" + JSON.stringify(e));
+			},
+			toStart: function() {
+				this.$refs.barcode.start({
+					conserve: true,
+					filename: '_doc/barcode/'
+				});
+			},
+			tocancel: function() {
+				this.$refs.barcode.cancel();
+			},
+			toFlash: function() {
+				this.$refs.barcode.setFlash(true);
+			},
+
+			toscan: function() {
+				console.log("scan:");
+				const barcodeModule = uni.requireNativePlugin('barcodeScan');
+				barcodeModule.scan("/static/barcode1.png", (e) => {
+					console.log("scan_error:" + JSON.stringify(e));
+				});
+			}
+		}
+	}
+</script>
+
+<style>
+	.container {
+		display: flex;
+		height: 337rpx;
+		justify-content: center;
+		align-items: center;
+		background-color: rgb(205, 255, 254);
+	}
+
+	.logo {
+		width: 140rpx;
+		height: 130rpx;
+		margin-top: -10rpx;
+	}
+
+	.barcode {
+		width: 420rpx;
+		height: 224rpx;
+		background-color: #808080;
+		margin-top: -10rpx;
+	}
+
+
+	.btn {
+		position: absolute;
+		top: 130rpx;
+		background-color: rgb(4, 234, 231);
+		border: 1px solid black;
+		width: 90rpx;
+		height: 38rpx;
+		font-size: 13rpx;
+		border-radius: 0%;
+	}
+
+	.rk {
+		left: 40rpx;
+	}
+
+	.sb {
+		right: 40rpx;
+	}
+
+	.close {
+		top: 260rpx;
+		right: 40rpx;
+	}
+</style>

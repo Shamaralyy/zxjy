@@ -1,0 +1,1 @@
+<view class="content"><image class="logo" src="/static/logo.png"></image><canvas class="camera"></canvas><button class="btn rk" bindtap="{{a}}">开始入库</button><button class="btn sb" bindtap="{{b}}">开始识别</button><button class="btn close">关闭</button></view>
